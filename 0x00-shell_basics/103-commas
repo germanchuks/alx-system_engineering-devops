@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -lamp *[a-z,1-9]*
+ls -lamp

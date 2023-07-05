@@ -1,2 +1,2 @@
-#Current working directory
-This script prints the absolute path name of the currenty working directory
+#Shell Basics
+This directory contains scripts that perform some basic shell commands

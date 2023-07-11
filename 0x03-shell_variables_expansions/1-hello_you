@@ -1,2 +1,2 @@
 #!/bin/bash
-printf "Hello %s" "$USER"
+echo "Hello $(id -u -n)"

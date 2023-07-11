@@ -1,0 +1,3 @@
+#!/bin/bash
+_user="$(whoami)"
+echo "Hello $_user"

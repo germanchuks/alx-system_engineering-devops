@@ -3,15 +3,4 @@
 
 FILE="apache-access.log"
 
-awk '
-{
-    occurrences[$1" "$9]++
-}
-
-END {
-    for (combination in occurrences) {
-        split(combination, fields, " ")
-        print occurrences[combination], fields[1], fields[2]
-    }
-}
-' "$FILE" | sort -rn
+awk '{print $1 " " $9}' "$FILE" | sort | uniq -c | sort -rn

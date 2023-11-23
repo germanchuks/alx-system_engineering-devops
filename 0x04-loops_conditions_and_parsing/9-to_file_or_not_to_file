@@ -2,18 +2,19 @@
 # This script displays information about a school file.]
 
 FILENAME="school"
-if [ ! -e "$FILENAME" ]; then
-    echo "school file does not exist"
-else
+
+if [ -e "$FILENAME" ]; then
     echo "school file exists"
 
     if [ -s "$FILENAME" ]; then
         echo "school file is not empty"
+
         if [ -f "$FILENAME" ]; then
             echo "school is a regular file"
         fi
     else
         echo "school file is empty"
     fi
+else
+    echo "school file does not exist"
 fi
-

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#  This script groups visitors by IP and HTTP status code, and displays this data.
+# This script groups visitors by IP and HTTP status code and displays the data
 
 FILE="apache-access.log"
 
@@ -9,9 +9,9 @@ awk '
 }
 
 END {
-    for (logs in occurrences) {
-        split(logs, field, " ")
-        print occurrences[logs], field[1], field[2]
+    for (combination in occurrences) {
+        split(combination, fields, " ")
+        print occurrences[combination], fields[1], fields[2]
     }
 }
 ' "$FILE" | sort -rn

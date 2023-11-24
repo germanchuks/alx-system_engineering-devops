@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#  This bash script kills the processes 7-highlander.
+
+while IFS= read -r PID; do
+  kill -9 "$PID"
+done < <(pgrep -f '7-highlander')

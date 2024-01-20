@@ -1,0 +1,6 @@
+# File: 2-ssh_config
+
+Host *
+    HashKnownHosts yes
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no

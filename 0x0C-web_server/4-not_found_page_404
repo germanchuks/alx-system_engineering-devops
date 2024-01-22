@@ -2,20 +2,27 @@
 # Bash script to configure your Nginx server so that /redirect_me is redirecting to another page.
 
 # Install nginx
-sudo apt-get -y update
-sudo apt-get -y install nginx
-
-# Adjust firewall
-sudo ufw allow 'Nginx HTTP'
+apt-get -y update
+apt-get -y install nginx
 
 # Create HTML file containing string 'Hello World!'
 echo "Hello World!" > /var/www/html/index.html
 
 # Configure redirection
-sudo sed -i '/server_name _;/a \
+sed -i '/server_name _;/a \
     location \/redirect_me {\
         return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\
     }' /etc/nginx/sites-available/default
 
+# 404 page
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+# Configure Nginx for the 404 page
+sed -i '/server_name _;/a \
+    error_page 404 /404.html;\
+    location = /404.html {\
+        root /var/www/html;\
+    }' /etc/nginx/sites-available/default
+
 # Restart Nginx without using systemctl
-sudo service nginx restart
+service nginx restart

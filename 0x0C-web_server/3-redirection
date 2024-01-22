@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Bash script to configure your Nginx server so that /redirect_me is redirecting to another page.
+
+# Install nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
+
+# Adjust firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Create HTML file containing string 'Hello World!'
+echo "Hello World!" > /var/www/html/index.html
+
+# Configure redirection
+sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://www.youtube.com/ permanent;' /etc/nginx/sites-available/default
+
+# Restart Nginx without using systemctl
+sudo service nginx restart

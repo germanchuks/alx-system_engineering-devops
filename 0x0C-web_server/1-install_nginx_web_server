@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Bash script to install nginx web server on web-01
+
+# Install nginx
+apt-get -y update
+apt-get -y install nginx
+
+# Create HTML file containing string 'Hello World!'
+echo "Hello World!" > /var/www/html/index.html
+
+# Restart Nginx without using systemctl
+service nginx start

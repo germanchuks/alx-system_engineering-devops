@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Configures a brand new Ubuntu machine
+
+# Install nginx
+apt-get -y update
+apt-get -y install nginx
+
+# Add custom header
+HOSTNAME=$(hostname)
+sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
+
+# Create HTML file containing string 'Hello World!'
+echo "Hello World!" > /var/www/html/index.html
+
+# Configure redirection
+sudo sed -i "s/server_name _;/ \
+server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/germanchuks permanent;/" \
+/etc/nginx/sites-enabled/default
+
+# Configure custom 404 error page
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+sudo sed -i "s/listen 80 default_server;/\
+listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}/" \
+/etc/nginx/sites-enabled/default
+
+# Test configurations
+sudo nginx -t
+
+# Restart Nginx
+service nginx restart

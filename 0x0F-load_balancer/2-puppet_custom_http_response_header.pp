@@ -1,55 +1,41 @@
-#!/usr/bin/env bash
-# Automate the creation of custom HTTP header response using Puppet
+# Add a custom HTTP header
 
+# Update Package Lists
 exec { 'update server':
   command  => 'apt-get update',
   user     => 'root',
-  provider => 'shell'
+  provider => 'shell',
 }
-
+->
+# Install Nginx
 package { 'nginx':
-  ensure => present,
+  ensure   => present,
+  provider => 'apt'
 }
-
-file { '/var/www/html':
-  ensure => directory
+->
+# Custom HTTP Header
+file_line { 'add Header':
+  ensure => 'present',
+  path   => '/etc/nginx/sites-available/default',
+  after  => 'listen 80 default_server;',
+  line   => 'add_header X-Served-By $hostname;'
 }
-
+->
+# Custom Root Page
 file { '/var/www/html/index.html':
   ensure  => present,
-  content => 'Hello World!'
+  content => 'Hello World!',
 }
-
+->
+# Custom Error Page
 file { '/var/www/html/404.html':
   ensure  => present,
-  content => "Ceci n'est pas une page"
+  content => "Ceci n'est pas une page",
 }
-
-file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => '
-    server {
-      listen 80 default_server;
-      listen [::]:80 default_server;
-      add_header X-Served-By $hostname;
-      root /var/www/html;
-      index index.html index.htm;
-
-      location /redirect_me {
-        return 301 https//youtube.com/;
-      }
-
-      error_page 404 /404.html;
-      location /404 {
-        root /var/www/html;
-        internal;
-      }
-    }
-  '
-}
-
+->
+# Start Nginx
 service { 'nginx':
-  ensure  => running,
-  require => Package['nginx'],
-  enable  => true
+  ensure  => 'running',
+  enable  => true,
+  require => Package['nginx']
 }

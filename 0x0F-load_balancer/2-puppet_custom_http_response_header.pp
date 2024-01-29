@@ -1,22 +1,28 @@
 #!/usr/bin/env bash
 # Automate the creation of custom HTTP header response using Puppet
 
+exec { 'update server':
+  command  => 'apt-get update',
+  user     => 'root',
+  provider => 'shell'
+}
+
 package { 'nginx':
-  ensure => installed,
+  ensure => present,
 }
 
 file { '/var/www/html':
-  ensure => directory,
+  ensure => directory
 }
 
 file { '/var/www/html/index.html':
   ensure  => present,
-  content => 'Hello World!',
+  content => 'Hello World!'
 }
 
 file { '/var/www/html/404.html':
   ensure  => present,
-  content => "Ceci n'est pas une page",
+  content => "Ceci n'est pas une page"
 }
 
 file { '/etc/nginx/sites-available/default':
@@ -39,11 +45,11 @@ file { '/etc/nginx/sites-available/default':
         internal;
       }
     }
-  ',
+  '
 }
 
 service { 'nginx':
   ensure  => running,
-  require => File['/etc/nginx/sites-available/default'],
-  enable  => true,
+  require => Package['nginx'],
+  enable  => true
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Modify Nginx server's default HTTP port from 8080 to 80 by replacing the symbolic link in sites-enabled.
-rm /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo service nginx restart
+pkill -o nginx

@@ -17,18 +17,18 @@ def export_employee_todo_to_json(employee_id):
 
     user_data = user_response.json()
     todos_data = todos_response.json()
-    name = user_data['username']
+    name = user_data.get("username")
 
     json_filename = f"{employee_id}.json"
     json_data = {
         "USER_ID": [
             {"task": task.get("title"), "completed": task.get("completed"),
-                "username": name}
+             "username": name}
             for task in todos_data
         ]
     }
     with open(json_filename, "w") as json_file:
-        json.dump(json_data, json_file, indent=2)
+        json.dump(json_data, json_file, indent=4)
 
 
 if __name__ == "__main__":

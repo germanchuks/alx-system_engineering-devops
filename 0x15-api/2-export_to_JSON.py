@@ -21,9 +21,12 @@ def export_employee_todo_to_json(employee_id):
 
     json_filename = f"{employee_id}.json"
     json_data = {
-        "USER_ID": [
-            {"task": task.get("title"), "completed": task.get("completed"),
-             "username": name}
+        employee_id: [
+            {
+                "task": task.get("title"),
+                "completed": task.get("completed"),
+                "username": name
+            }
             for task in todos_data
         ]
     }

@@ -18,11 +18,6 @@ server {
     #
     # include snippets/snakeoil.conf;
 
-    root /var/www/html;
-
-    # Add index.php to the list if you are using PHP
-    index index.html index.htm index.nginx-debian.html;
-
     server_name 100.26.255.10;
 
     add_header X-Served-By 461156-web-01;
